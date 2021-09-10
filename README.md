@@ -1,8 +1,8 @@
 
 # Pour compiler 
-/gradlew assembleDebug
+./gradlew assembleDebug
 
 # Pour lancer les tests
-/gradlew testDebug
+./gradlew testDebug
 
 Sur windows, remplacer /gradlew par /gradlew.bat
