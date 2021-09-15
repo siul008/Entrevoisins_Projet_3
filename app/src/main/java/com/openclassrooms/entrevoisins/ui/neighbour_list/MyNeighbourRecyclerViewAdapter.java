@@ -1,6 +1,5 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,27 +21,18 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeighbourRecyclerViewAdapter.ViewHolder>
-{
+public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeighbourRecyclerViewAdapter.ViewHolder> {
     private final List<Neighbour> mNeighbours;
 
 
     private OnItemClickListener mListener;
-//TODO 2A
-    public interface OnItemClickListener
-    {
-        void onItemClick(int position);
-    }
 
-    public void setOnItemClickListener(OnItemClickListener listener)
-    {
-        mListener = listener;
-    }
-
-
-    public MyNeighbourRecyclerViewAdapter(List<Neighbour> items)
-    {
+    public MyNeighbourRecyclerViewAdapter(List<Neighbour> items) {
         mNeighbours = items;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
     }
 
     @Override
@@ -64,8 +54,7 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
                 .into(holder.mNeighbourAvatar);
 
 
-        holder.mDeleteButton.setOnClickListener(new View.OnClickListener()
-        {
+        holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour));
@@ -78,8 +67,12 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
         return mNeighbours.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder
-    {
+
+    public interface OnItemClickListener {
+        void onItemClick(Neighbour neighbour);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.item_list_avatar)
         public ImageView mNeighbourAvatar;
         @BindView(R.id.item_list_name)
@@ -87,29 +80,17 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
         @BindView(R.id.item_list_delete_button)
         public ImageButton mDeleteButton;
 
-        public ViewHolder(View itemView, OnItemClickListener listener)
-        {
+        public ViewHolder(View itemView, OnItemClickListener listener) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            itemView.setOnClickListener(new View.OnClickListener()
-            {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
-                         if(mListener != null)
-                         {
-                             int position = getAdapterPosition();
-                             if(position != RecyclerView.NO_POSITION)
-                             {
-                                 mListener.onItemClick(position);
-                             }
-                         }
+                public void onClick(View v) {
+                    if (mListener != null) { int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mListener.onItemClick(mNeighbours.get(position));
+                        } }
                 }
-            });
-
-                }
-            ;
-        }
-    }
+            }); }}}
 

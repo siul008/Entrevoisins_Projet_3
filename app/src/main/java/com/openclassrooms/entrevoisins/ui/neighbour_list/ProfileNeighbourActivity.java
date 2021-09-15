@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 
 public class ProfileNeighbourActivity extends AppCompatActivity
 {
-    // TODO : 3A
+
     private NeighbourApiService mApiService;
     private List<Neighbour> mNeighbours;
 
@@ -49,7 +49,7 @@ public class ProfileNeighbourActivity extends AppCompatActivity
     FloatingActionButton mFavouriteButton;
     @BindView(R.id.arrow_back)
     ImageView mArrowBack;
-
+    Neighbour neighbour = null;
     protected void onCreate(Bundle savedInstanceState)
     {
 
@@ -63,18 +63,20 @@ public class ProfileNeighbourActivity extends AppCompatActivity
 
 
           Bundle extras = getIntent().getExtras();
-          String name = extras.getString("mName");
-          String about = extras.getString("mAboutMe");
-          String phone = extras.getString("mPhone");
-          String adress = extras.getString("mAdress");
-          String avatar = extras.getString("mAvatar");
-          int position = extras.getInt("mPosition");
+          long position = extras.getLong("mPosition");
 
        mNeighbours = mApiService.getNeighbours();
-       Neighbour neighbour = mNeighbours.get(position);
+
+       for (Neighbour neighbour1 : mNeighbours)
+       {
+           if(neighbour1.getId() == position) {
+               neighbour = neighbour1;
+               break;
+           }
+       }
        setFavouriteStar(neighbour);
 
-     // TODO 3.B
+
         mFavouriteButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -98,15 +100,15 @@ public class ProfileNeighbourActivity extends AppCompatActivity
 
 
 
-          mName.setText("" + name);
-          mName2.setText("" + name);
-          mAboutMe.setText("" + about);
-          mPhoneNumber.setText("" + phone);
-          mAdress.setText("" + adress);
-          mUrl.setText("www.facebook.fr/" + name.toLowerCase());
+          mName.setText(neighbour.getName());
+          mName2.setText(neighbour.getName());
+          mAboutMe.setText(neighbour.getAboutMe());
+          mPhoneNumber.setText(neighbour.getPhoneNumber());
+          mAdress.setText(neighbour.getPhoneNumber());
+          mUrl.setText("www.facebook.fr/" + neighbour.getName().toLowerCase());
 
           Glide.with(ProfileNeighbourActivity.this)
-                  .load(avatar)
+                  .load(neighbour.getAvatarUrl())
                   .centerCrop()
                   .into(mAvatar);
 

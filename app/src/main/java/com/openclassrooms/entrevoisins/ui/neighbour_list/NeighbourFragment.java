@@ -31,13 +31,9 @@ public class NeighbourFragment extends Fragment {
     private MyNeighbourRecyclerViewAdapter mAdapter;
 
 
-
-
-
-
-
     /**
      * Create and return a new instance
+     *
      * @return @{@link NeighbourFragment}
      */
     public static NeighbourFragment newInstance() {
@@ -49,7 +45,6 @@ public class NeighbourFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mApiService = DI.getNeighbourApiService();
-
 
 
     }
@@ -73,18 +68,12 @@ public class NeighbourFragment extends Fragment {
         mNeighbours = mApiService.getNeighbours();
         mRecyclerView.setAdapter(mAdapter = new MyNeighbourRecyclerViewAdapter(mNeighbours));
 
-        // TODO 2A
+
         mAdapter.setOnItemClickListener(new MyNeighbourRecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position)
-            {
+            public void onItemClick(Neighbour neighbour) {
                 Intent intent = new Intent(getActivity(), ProfileNeighbourActivity.class);
-                intent.putExtra("mName"   , mNeighbours.get(position).getName());
-                intent.putExtra("mAboutMe", mNeighbours.get(position).getAboutMe());
-                intent.putExtra("mPhone"  , mNeighbours.get(position).getPhoneNumber());
-                intent.putExtra("mAdress" , mNeighbours.get(position).getAddress());
-                intent.putExtra("mAvatar" , mNeighbours.get(position).getAvatarUrl());
-                intent.putExtra("mPosition",position);
+                intent.putExtra("mPosition", neighbour.getId());
                 startActivity(intent);
             }
 
@@ -111,9 +100,9 @@ public class NeighbourFragment extends Fragment {
     }
 
 
-
     /**
      * Fired if the user clicks on a delete button
+     *
      * @param event
      */
     @Subscribe
